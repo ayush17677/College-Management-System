@@ -142,27 +142,42 @@ public class AddStudent extends javax.swing.JFrame {
     }//GEN-LAST:event_sclassActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        String StudentName=sname.getText();
-        String StudentClass=sclass.getText();
-        String sRollnumber=srollnumber.getText();
-        int StudentRollnumber=Integer.parseInt(sRollnumber);
-        try{
-              Class.forName("com.mysql.cj.jdbc.Driver");
-            //Create Connection
-            Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/college","root","root");
-            //Create Query
+        String studentName = sname.getText().trim();
+        String studentClass = sclass.getText().trim();
+        String rollNumberText = srollnumber.getText().trim();
+
+        if (studentName.isEmpty() || studentClass.isEmpty() || rollNumberText.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill in all student details.");
+            return;
+        }
+
+        int studentRollNumber;
+        try {
+            studentRollNumber = Integer.parseInt(rollNumberText);
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Roll number must be a valid number.");
+            srollnumber.requestFocusInWindow();
+            return;
+        }
+
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
             String query = "INSERT INTO student VALUES(?,?,?)";
-            PreparedStatement pstmt=con.prepareStatement(query);
-            pstmt.setInt(1, StudentRollnumber);
-            pstmt.setString(2, StudentName);
-            pstmt.setString(3, StudentClass);
-            //Execute Query 
-            pstmt.executeUpdate();
-            JOptionPane.showMessageDialog(this, "Data Inserted....");
-            
-        }catch(Exception e){
-            JOptionPane.showMessageDialog(this,e);
+            try (Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://127.0.0.1:3306/college", "root", "root");
+                 PreparedStatement pstmt = con.prepareStatement(query)) {
+                pstmt.setInt(1, studentRollNumber);
+                pstmt.setString(2, studentName);
+                pstmt.setString(3, studentClass);
+                pstmt.executeUpdate();
+            }
+            JOptionPane.showMessageDialog(this, "Student added successfully.");
+            sname.setText("");
+            sclass.setText("");
+            srollnumber.setText("");
+            sname.requestFocusInWindow();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Could not add student: " + ex.getMessage());
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
