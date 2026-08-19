@@ -34,7 +34,7 @@ public class Login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         username = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        userPassword = new javax.swing.JTextField();
+        userPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -116,28 +116,27 @@ public class Login extends javax.swing.JFrame {
 
         pack();
         setLocationRelativeTo(null);
+        getRootPane().setDefaultButton(jButton1);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-            String UserName ="Ayush";
-            String Password ="Ayush@123";
-            String userInput=username.getText();
-            String UserPassword=userPassword.getText();
-            
-            if(userInput.equals(UserName) && UserPassword.equals(Password)){
-                Admin admin =new Admin();
-                admin.show();
-                dispose();
-            }
-            else{
-                JOptionPane.showMessageDialog(this,"Incorrect UserName or Password");
-            }
-            
+        String expectedUsername = "Ayush";
+        String expectedPassword = "Ayush@123";
+        String enteredUsername = username.getText().trim();
+        String enteredPassword = new String(userPassword.getPassword());
+
+        if (enteredUsername.equals(expectedUsername) && enteredPassword.equals(expectedPassword)) {
+            Admin admin = new Admin();
+            admin.setVisible(true);
+            dispose();
+        } else {
+            userPassword.setText("");
+            JOptionPane.showMessageDialog(this, "Incorrect username or password");
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void userPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userPasswordActionPerformed
-        // TODO add your handling code here:
+        jButton1ActionPerformed(evt);
     }//GEN-LAST:event_userPasswordActionPerformed
 
     /**
@@ -181,7 +180,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField userPassword;
+    private javax.swing.JPasswordField userPassword;
     private javax.swing.JTextField username;
     // End of variables declaration//GEN-END:variables
 }
