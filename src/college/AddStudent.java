@@ -161,10 +161,8 @@ public class AddStudent extends javax.swing.JFrame {
         }
 
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
             String query = "INSERT INTO student VALUES(?,?,?)";
-            try (Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://127.0.0.1:3306/college", "root", "root");
+                try (Connection con = DatabaseConnection.open();
                  PreparedStatement pstmt = con.prepareStatement(query)) {
                 pstmt.setInt(1, studentRollNumber);
                 pstmt.setString(2, studentName);

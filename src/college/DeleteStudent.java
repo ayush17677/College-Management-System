@@ -259,9 +259,8 @@ public class DeleteStudent extends javax.swing.JFrame {
         String rollnumber =sRollnumber.getText();
         int Rollnumber=Integer.parseInt(rollnumber);
         try{
-             Class.forName("com.mysql.cj.jdbc.Driver");
             //Create Connection
-            Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/college","root","root");
+            Connection con = DatabaseConnection.open();
             //Create Query
             String query ="DELETE FROM student WHERE Rollnumber=?";
             PreparedStatement pstmt=con.prepareStatement(query);
@@ -288,9 +287,8 @@ public class DeleteStudent extends javax.swing.JFrame {
         }
         try{
             model.setRowCount(0);
-             Class.forName("com.mysql.cj.jdbc.Driver");
             //Create Connection
-            Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/college","root","root");
+            Connection con = DatabaseConnection.open();
             //Create Query
              String query ="SELECT * FROM student WHERE Rollnumber=?";
            PreparedStatement pstmt = con.prepareStatement(query);
@@ -320,9 +318,8 @@ public class DeleteStudent extends javax.swing.JFrame {
         // TODO add your handling code here:
          try{
             //Load Driver
-            Class.forName("com.mysql.cj.jdbc.Driver");
             //Create Connection
-            Connection con =DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/college","root","root");
+            Connection con = DatabaseConnection.open();
             //Create Query
             String query ="SELECT * FROM student";
             PreparedStatement pstmt = con.prepareStatement(query);
